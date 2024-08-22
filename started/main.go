@@ -4,18 +4,20 @@ import (
 	"fmt"
 	"time"
 )
+
 var count int32
-func loop(n int){
-	for i :=4; i<=n; i++ {
-		if i%2!=0 && i%3!=0 && i%5!=0 && i%7!=0 {
+
+func loop(n int) {
+	for i := 4; i <= n; i++ {
+		if i%2 != 0 && i%3 != 0 && i%5 != 0 && i%7 != 0 {
 			fmt.Println(i)
-			count ++
+			count++
 		}
 	}
 }
 
-func swic(rate uint){
-	switch rate{
+func swic(rate uint) {
+	switch rate {
 	case 1:
 		fmt.Println("worse rating")
 	case 2:
@@ -31,13 +33,18 @@ func swic(rate uint){
 	}
 }
 
-func main(){
+func kelvToCelc(kelv float64) float64 {
+	aCelc := 273.15;
+	return kelv - aCelc
+}
+
+func main() {
 	n := 100
 	go loop(n)
 	go swic(4)
 	time.Sleep(time.Second)
 
-	fmt.Println("hello word!");
-	fmt.Printf("intergers that are divisible only by 1 and itself between 0 and %d is: %d \n ...", n, count);
-}
+	fmt.Println("Temp In Celc!", kelvToCelc(375))
+	fmt.Printf("intergers that are divisible only by 1 and itself between 0 and %d is: %d \n ...", n, count)
 
+}
