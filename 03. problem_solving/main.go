@@ -23,6 +23,26 @@ func checkPalindrome (str string) {
 	fmt.Println("It Is a Palindrome")
 }
 
+func fibonacci (num int) []int {
+	var fibos = []int{}
+
+	prev1, prev2 := 0, 1;
+
+	fib := func () int {
+		prev1, prev2 = prev2, prev1 + prev2
+
+		return prev1;
+	}
+
+	for i:=0; i<num; i++ {
+		fibos = append(fibos, fib());
+	}
+
+	fmt.Printf("The First %d Fibonaci are: %v \n", num, fibos)
+	return fibos
+}
+
 func main () {
 	checkPalindrome("?????KK;;;;madam,,,..Kk");
+	fibonacci(20);
 }
