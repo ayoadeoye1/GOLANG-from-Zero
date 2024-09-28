@@ -1,15 +1,17 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
+	"os"
 
 	// colly package for scraping
 	"github.com/gocolly/colly"
 )
 
 type Product struct {
-	photo string
 	name  string
+	photo string
 	price string
 }
 
@@ -31,14 +33,38 @@ func main() {
 	c.OnHTML("li.product", func(e *colly.HTMLElement) {
 		product := Product{}
 
-		product.photo = e.ChildAttr("a", "href")
 		product.name = e.ChildText(".woocommerce-loop-product__title")
+		product.photo = e.ChildAttr("a", "href")
 		product.price = e.ChildText(".woocommerce-Price-amount.amount")
 		
 		products = append(products, product)
 	})
 
-	c.Visit("https://www.scrapingcourse.com/ecommerce/")
+	c.OnScraped(func(r *colly.Response) {
+		file, err := os.Create("./scrape.csv")
 
-	fmt.Println("Scraped Products:", products)
+		if err != nil {
+			panic("Could not create the file")
+		}
+		defer file.Close()
+
+		writer := csv.NewWriter(file)
+
+		header := []string{"Name","Photo","Price"}
+
+		writer.Write(header)
+
+		for _, val := range products {
+			body := []string{
+				val.name,
+				val.photo,
+				val.price,
+			}
+
+			writer.Write(body)
+		}
+		defer writer.Flush()
+	})
+
+	c.Visit("https://www.scrapingcourse.com/ecommerce/")
 }
