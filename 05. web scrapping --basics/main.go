@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	// colly package for scraping
+	// go colly package github
 	"github.com/gocolly/colly"
 )
 
