@@ -44,7 +44,7 @@ func main() {
 		file, err := os.Create("./scrape.csv")
 
 		if err != nil {
-			panic("Could not create the file")
+			panic(err)
 		}
 		defer file.Close()
 
