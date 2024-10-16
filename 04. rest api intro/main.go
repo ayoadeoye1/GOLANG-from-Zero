@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-const minScore = 30
+const minScore = 25
 const maxScore = 100
 
 type student_score struct {
-  FinalScore int `json:"student_score"`
-  Grade string `json:"grade"`
+	FinalScore int    `json:"student_score"`
+	Grade      string `json:"grade"`
 }
 
-func getGrade (score uint) (string) {
+func getGrade(score uint) string {
 	x := ""
 
 	if score >= 70 && score <= 100 {
@@ -39,18 +39,19 @@ func getScore(w http.ResponseWriter, r *http.Request) {
 	var score = rand.Intn(maxScore-minScore) + minScore
 	var finalScore = student_score{
 		FinalScore: score,
-		Grade: getGrade(uint(score)),
+		Grade:      getGrade(uint(score)),
 	}
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(finalScore)
 }
 
+// END POINT
 func handleRequests() {
 	http.Handle("/score", http.HandlerFunc(getScore))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func main() {
-  	handleRequests()
+	handleRequests()
 }
