@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func checkAPI(api string, ch chan string) {
@@ -12,4 +13,17 @@ func checkAPI(api string, ch chan string) {
 		return
 	}
 	ch <- fmt.Sprintf("SUCCESS: %s is up and running!\n", api)
+}
+
+func main() {
+	start := time.Now()
+
+	apis := []string{
+		"https://management.azure.com",
+		"https://dev.azure.com",
+		"https://api.github.com",
+		"https://outlook.office.com/",
+		"https://api.somewhereintheinternet.com/",
+		"https://graph.microsoft.com",
+	}
 }
