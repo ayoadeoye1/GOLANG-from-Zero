@@ -26,4 +26,18 @@ func main() {
 		"https://api.somewhereintheinternet.com/",
 		"https://graph.microsoft.com",
 	}
+
+	ch := make(chan string)
+
+	for _, api := range apis {
+		go checkAPI(api, ch)
+	}
+
+	for _, api := range apis {
+		fmt.Printf("%s => ", api)
+		fmt.Print(<-ch)
+	}
+
+	elapsed := time.Since(start)
+	fmt.Printf("Done! It took %v seconds!\n", elapsed.Seconds())
 }
